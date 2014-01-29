@@ -23,11 +23,11 @@ SchedulerShell works by scheduling one cron (SchedulerShell) for your project. T
 Install
 -------
 
-This Shell was developed for CakePHP 2.
+This Shell was developed for CakePHP 1.3.
 
-Copy the SchedulerShell.php into your App/Console/Command
+Copy the scheduler.php into your app/vendor/shells
 
-Schedule a single system cron by the shortest interval you need for SchedulerShell.php.  For example, if you have 5 tasks and the most often run is every 5 minutes, then schedule the this cron to run atleast every 5 minutes. For more help see [Shells as Cron Jobs](http://book.cakephp.org/2.0/en/console-and-shells/cron-jobs.html).
+Schedule a single system cron by the shortest interval you need for scheduler.php.  For example, if you have 5 tasks and the most often run is every 5 minutes, then schedule the this cron to run atleast every 5 minutes. For more help see [Shells as Cron Jobs](http://book.cakephp.org/2.0/en/console-and-shells/cron-jobs.html).
 
 Now once this shell is sheduled we are able to add our entries to bootstrap.php.  Lets say we want to schedule a CleanUp task daily at 5am and a NewsletterTask for every 15 minutes.
 
