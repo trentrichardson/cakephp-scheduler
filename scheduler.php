@@ -34,7 +34,7 @@
 	- may have to run dos2unix to fix line endings in the Config/cake file
 */
 
-class SchedulerShell extends AppShell{
+class SchedulerShell extends Shell{
 
 	public $tasks = array();
 
@@ -120,7 +120,7 @@ class SchedulerShell extends AppShell{
 		$storeFilePath = $this->storePath.$this->storeFile;
 		if(file_exists($storeFilePath))
 			$store = file_get_contents($storeFilePath);
-		$this->out('Reading from: '. $storeFilePath);
+		$this->out("Reading from:\n$storeFilePath");
 
 		// build or rebuild the store
 		if($store != '')
@@ -153,20 +153,14 @@ class SchedulerShell extends AppShell{
 
 			// is it time to run? has it never been run before?
 			if($tmptime <= $now){
-				$this->out("Running $name ---------------------------------------\n");
+				$this->hr(1,60);
+				$this->out("Running $name\n");
+				
+				$this->tasks = array($task);
 
-				if(!isset($this->$task)){
-					$this->$task = $this->Tasks->load($task);
+				$this->loadTasks();
 
-					// load models if they aren't already
-					foreach($this->$task->uses as $mk=>$mv){
-						if(!isset($this->$task->$mv)){
-							App::uses('AppModel', 'Model');
-							App::uses($mv, 'Model');
-							$this->$task->$mv = new $mv();
-						}
-					}
-				}
+				$this->$task->_loadModels();
 
 				// grab the entire schedule record incase it was updated..
 				$store[$name] = $this->schedule[$name];

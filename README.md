@@ -1,7 +1,7 @@
 CakePHPSchedulerShell
 =====================
 
-Makes scheduling tasks in CakePHP much simpiler.
+Makes scheduling tasks in CakePHP much simpiler. (For CakePHP v1.*, see other branches for new versions)
 
 Author
 ------
