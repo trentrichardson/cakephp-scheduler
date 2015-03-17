@@ -9,7 +9,7 @@
 
 	-------------------------------------------------------------------
 	To configure:
-	In your bootstrap.php you must add yourjobs:
+	In your bootstrap.php you must add your jobs:
 
 	Configure::write('SchedulerShell.jobs', array(
 		'CleanUp' => array('interval'=>'next day 5:00','task'=>'CleanUp'),// tomorrow at 5am
