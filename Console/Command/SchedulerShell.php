@@ -27,7 +27,7 @@
 	Run a shell task:
 	- Cd into app dir
 	- run this: 
-		>> Console/cake scheduler
+		>> Console/cake Scheduler.Scheduler
 	
 	-------------------------------------------------------------------
 	Troubleshooting
