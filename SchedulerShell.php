@@ -76,7 +76,7 @@ class SchedulerShell extends AppShell{
 			// read in the jobs from the config
 			if(isset($config['jobs'])){
 				foreach($config['jobs'] as $k=>$v){
-					$v = array('action'=>'execute', 'pass'=>array()) + $v;
+					$v = $v + array('action'=>'execute', 'pass'=>array());
 					$this->connect($k, $v['interval'], $v['task'], $v['action'], $v['pass']);
 				}
 			}
