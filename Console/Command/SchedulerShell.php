@@ -172,7 +172,9 @@ class SchedulerShell extends AppShell{
 
 			// is it time to run? has it never been run before?
 			if ($tmptime <= $now) {
-				$this->out("Running $name ---------------------------------------\n");
+				$this->hr();
+				$this->out("Running $name");
+				$this->hr();
 
 				if (!isset($this->$task)) {
 					$this->$task = $this->Tasks->load($task);
