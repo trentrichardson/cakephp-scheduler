@@ -93,6 +93,14 @@ Configure::write('SchedulerShell.storeFile', "scheduler_results.json");
 Configure::write('SchedulerShell.storePath', "/path/to/save/");
 ```
 
+Preventing Simultaneous SchedulerShells Running Same Tasks
+----------------------------------------------------------
+By default, the SchedulerShell will exit if it is already running and has been for less than 10 minutes. You can adjust this by setting:
+
+```php
+// change the number of seconds to wait before running a parallel SchedulerShell; 0 = do not exit
+Configure::write('SchedulerShell.processTimeout', 5*60);
+```
 
 Other Notes/Known Issues
 ------------------------

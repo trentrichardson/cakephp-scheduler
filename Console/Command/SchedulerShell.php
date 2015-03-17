@@ -34,6 +34,9 @@
  * - may have to run dos2unix to fix line endings in the Config/cake file
  */
 
+App::uses('File', 'Utility');
+App::uses('Folder', 'Utility');
+
 class SchedulerShell extends AppShell{
 
 	public $tasks = array();
@@ -59,6 +62,11 @@ class SchedulerShell extends AppShell{
 	private $storeFile = 'cron_scheduler.json';
 
 /**
+ * The number of seconds to wait before running a parallel SchedulerShell
+ */
+	private $processingTimeout = 600;
+
+/**
  * The main method which you want to schedule for the most frequent interval
  */
 
@@ -79,6 +87,10 @@ class SchedulerShell extends AppShell{
 
 			if (isset($config['storeFile'])) {
 				$this->storeFile = $config['storeFile'];
+			}
+
+			if (isset($config['processingTimeout'])) {
+				$this->processingTimeout = $config['processingTimeout'];
 			}
 
 			// read in the jobs from the config
@@ -123,6 +135,20 @@ class SchedulerShell extends AppShell{
  * @return void
  */
 	private function runjobs() {
+		$dir = new Folder(TMP);
+		
+		// set processing flag so function takes place only once at any given time
+		$processing = count($dir->find('\.scheduler_running_flag'));
+		$processingFlag = new File($dir->slashTerm($dir->pwd()) . '.scheduler_running_flag');
+		
+		if ($processing && (time() - $processingFlag->lastChange()) < $this->processingTimeout) {
+			$this->out("Scheduler already running! Exiting.");
+			return false;
+		} else {
+			$processingFlag->delete();
+			$processingFlag->create();
+		}
+		
 		if (!$this->storePath) {
 			$this->storePath = TMP;
 		}
@@ -203,5 +229,8 @@ class SchedulerShell extends AppShell{
 		
 		// write the store back to the file
 		file_put_contents($this->storePath.$this->storeFile, json_encode($store));
+		
+		// remove processing flag
+		$processingFlag->delete();
 	}
 }
