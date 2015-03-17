@@ -137,7 +137,7 @@ class SchedulerShell extends AppShell{
 
 		// build or rebuild the store
 		if ($store != '') {
-			$store = json_decode($store,true);
+			$store = json_decode($store, true);
 		} else {
 			$store = $this->schedule;
 		}
@@ -164,7 +164,7 @@ class SchedulerShell extends AppShell{
 			}
 
 			// determine the next run time based on the last
-			if (substr($job['interval'],0,1)==='P') {
+			if (substr($job['interval'],0,1) === 'P') {
 				$tmptime->add(new DateInterval($job['interval'])); // "P10DT4H" http://www.php.net/manual/en/class.dateinterval.php
 			} else {
 				$tmptime->modify($job['interval']); // "next day 10:30" http://www.php.net/manual/en/datetime.formats.relative.php
@@ -180,7 +180,7 @@ class SchedulerShell extends AppShell{
 					$this->$task = $this->Tasks->load($task);
 
 					// load models if they aren't already
-					foreach ($this->$task->uses as $mk=>$mv) {
+					foreach ($this->$task->uses as $mk => $mv) {
 						if (!isset($this->$task->$mv)) {
 							App::uses('AppModel', 'Model');
 							App::uses($mv, 'Model');
