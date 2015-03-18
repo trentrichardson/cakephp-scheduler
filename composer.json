@@ -1,0 +1,17 @@
+{
+	"name": "trentrichardson/cakephp-scheduler",
+	"type": "cakephp-plugin",
+	"description": "Makes scheduling tasks in CakePHP much simpler.",
+	"keywords": ["cakephp","scheduler","cron job","task"],
+	"homepage": "http://github.com/trentrichardson/cakephp-scheduler",
+	"require": {
+		"php": ">=5.3.6",
+		"composer/installers": "*"
+	},
+	"support": {
+		"source": "https://github.com/trentrichardson/cakephp-scheduler"
+	},
+	"extra": {
+		"installer-name": "Scheduler"
+	}
+}
