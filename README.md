@@ -65,9 +65,9 @@ Now once this shell is scheduled we are able to add our entries to bootstrap.php
 
 ```php
 Configure::write('SchedulerShell.jobs', array(
-		'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp'),// tomorrow at 5am
-		'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter') //every 15 minutes
-	));
+	'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp'),// tomorrow at 5am
+	'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter') //every 15 minutes
+));
 ```
 
 The key to each entry will be used to store the previous run.  *These must be unique*!
@@ -87,9 +87,9 @@ There are a couple optional arguments you may pass: "action" and "pass".
 
 ```php
 Configure::write('SchedulerShell.jobs', array(
-		'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp', 'action' => 'execute', 'pass' => array()),
-		'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter', 'action' => 'execute', 'pass' => array())
-	));
+	'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp', 'action' => 'execute', 'pass' => array()),
+	'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter', 'action' => 'execute', 'pass' => array())
+));
 ```
 
 Storage of Results
