@@ -25,9 +25,21 @@ Install
 
 This Shell was developed for CakePHP 2.
 
-Copy the Scheduler plugin into your App/Plugin folder.
+### Composer Installation (recommended)
 
-Load the plugin in your bootstrap.php file using either:
+In your project's composer.json file add this to your require:
+
+````
+"trentrichardson/cakephp-scheduler": "1.*"
+````
+
+### Manual Installation
+
+Copy the Scheduler plugin into your App/Plugin folder and rename the folder to Scheduler.
+
+### Load the Plugin
+
+In your bootstrap.php file add either:
 
 ```php
 CakePlugin::loadAll();
@@ -53,9 +65,9 @@ Now once this shell is scheduled we are able to add our entries to bootstrap.php
 
 ```php
 Configure::write('SchedulerShell.jobs', array(
-		'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp'),// tomorrow at 5am
-		'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter') //every 15 minutes
-	));
+	'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp'),// tomorrow at 5am
+	'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter') //every 15 minutes
+));
 ```
 
 The key to each entry will be used to store the previous run.  *These must be unique*!
@@ -75,9 +87,9 @@ There are a couple optional arguments you may pass: "action" and "pass".
 
 ```php
 Configure::write('SchedulerShell.jobs', array(
-		'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp', 'action' => 'execute', 'pass' => array()),
-		'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter', 'action' => 'execute', 'pass' => array())
-	));
+	'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp', 'action' => 'execute', 'pass' => array()),
+	'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter', 'action' => 'execute', 'pass' => array())
+));
 ```
 
 Storage of Results
