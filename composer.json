@@ -4,6 +4,7 @@
 	"description": "Makes scheduling tasks in CakePHP much simpler.",
 	"keywords": ["cakephp","scheduler","cron job","task"],
 	"homepage": "http://github.com/trentrichardson/cakephp-scheduler",
+	"license": "MIT",
 	"require": {
 		"php": ">=5.3.6",
 		"composer/installers": "*"

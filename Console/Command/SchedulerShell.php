@@ -3,7 +3,7 @@
  * SchedulerShell
  * Author: Trent Richardson [http://trentrichardson.com]
  * 
- * Copyright 2013 Trent Richardson
+ * Copyright 2015 Trent Richardson
  * You may use this project under MIT license.
  * http://trentrichardson.com/Impromptu/MIT-LICENSE.txt
  * 
