@@ -25,9 +25,21 @@ Install
 
 This Shell was developed for CakePHP 2.
 
-Copy the Scheduler plugin into your App/Plugin folder.
+### Composer Installation (recommended)
 
-Load the plugin in your bootstrap.php file using either:
+In your project's composer.json file add this to your require:
+
+````
+"trentrichardson/cakephp-scheduler": "1.*"
+````
+
+### Manual Installation
+
+Copy the Scheduler plugin into your App/Plugin folder and rename the folder to Scheduler.
+
+### Load the Plugin
+
+In your bootstrap.php file add either:
 
 ```php
 CakePlugin::loadAll();
