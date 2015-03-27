@@ -11,7 +11,7 @@ Developed as part of the CarBounce project [http://carbounce.com]
 
 License
 -------
-Copyright 2013 Trent Richardson
+Copyright 2015 Trent Richardson
 
 You may use this project under MIT license.
 http://trentrichardson.com/Impromptu/MIT-LICENSE.txt
@@ -23,14 +23,14 @@ SchedulerShell works by scheduling one cron (SchedulerShell) for your project. T
 Install
 -------
 
-This Shell was developed for CakePHP 2.
+This Shell was developed for CakePHP 3.
 
 ### Composer Installation (recommended)
 
 In your project's composer.json file add this to your require:
 
 ````
-"trentrichardson/cakephp-scheduler": "1.*"
+"trentrichardson/cakephp-scheduler": "dev-cakephp-v3.0"
 ````
 
 ### Manual Installation
@@ -48,7 +48,7 @@ CakePlugin::loadAll();
 or
 
 ```php
-CakePlugin::load('Scheduler');
+CakePlugin::load('Scheduler',['autoload'=>true]);
 ```
 
 Schedule a single system cron by the shortest interval you need for SchedulerShell.php.  For example, if you have 5 tasks and the most often run is every 5 minutes, then schedule this cron to run at least every 5 minutes. For more help see [Shells as Cron Jobs](http://book.cakephp.org/2.0/en/console-and-shells/cron-jobs.html).
@@ -72,8 +72,8 @@ Configure::write('SchedulerShell.jobs', array(
 
 The key to each entry will be used to store the previous run.  *These must be unique*!
 
-**interval** is set one of two ways.  
-1) For set times of day we use PHP's [relative time formats](http://www.php.net/manual/en/datetime.formats.relative.php): "next day 5:00". 
+**interval** is set one of two ways.
+1) For set times of day we use PHP's [relative time formats](http://www.php.net/manual/en/datetime.formats.relative.php): "next day 5:00".
 
 2) To use an interval to achieve "every 15 minutes" we use [DateInterval](http://www.php.net/manual/en/class.dateinterval.php) string format: "PT15M".
 
