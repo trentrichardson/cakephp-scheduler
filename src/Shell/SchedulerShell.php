@@ -101,7 +101,7 @@ class SchedulerShell extends Shell{
 			// read in the jobs from the config
 			if (isset($config['jobs'])) {
 				foreach ($config['jobs'] as $k => $v) {
-					$v = $v + array('action' => 'execute', 'pass' => array());
+					$v = $v + array('action' => 'main', 'pass' => array());
 					$this->connect($k, $v['interval'], $v['task'], $v['action'], $v['pass']);
 				}
 			}
