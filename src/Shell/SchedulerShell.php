@@ -39,6 +39,8 @@ use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
 use Cake\Filesystem\File;
+use \DateTime;
+use \DateInterval;
 
 class SchedulerShell extends Shell{
 
