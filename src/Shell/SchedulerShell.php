@@ -2,42 +2,45 @@
 /**
  * SchedulerShell
  * Author: Trent Richardson [http://trentrichardson.com]
- * 
+ *
  * Copyright 2015 Trent Richardson
  * You may use this project under MIT license.
  * http://trentrichardson.com/Impromptu/MIT-LICENSE.txt
- * 
+ *
  * -------------------------------------------------------------------
  * To configure:
  * In your bootstrap.php you must add your jobs:
- * 
+ *
  * Configure::write('SchedulerShell.jobs', array(
  * 	'CleanUp' => array('interval'=>'next day 5:00','task'=>'CleanUp'),// tomorrow at 5am
  * 	'Newsletters' => array('interval'=>'PT15M','task'=>'Newsletter') //every 15 minutes
  * ));
- * 
+ *
  * -------------------------------------------------------------------
  * Add cake to $PATH:
  * - edit .bashrc (linux) or .bash_profile (mac) and add
  * - export PATH="/path/to/cakephp/lib/Cake/Console:$PATH"
  * - reload with:
  * 	>> source .bashrc
- * 
+ *
  * -------------------------------------------------------------------
  * Run a shell task:
  * - Cd into app dir
- * - run this: 
+ * - run this:
  * 	>> Console/cake Scheduler.Scheduler
- * 
+ *
  * -------------------------------------------------------------------
  * Troubleshooting
  * - may have to run dos2unix to fix line endings in the Config/cake file
  */
+namespace Scheduler\Shell;
 
-App::uses('File', 'Utility');
-App::uses('Folder', 'Utility');
+use Cake\Console\Shell;
+use Cake\Core\Configure;
+use Cake\Filesystem\Folder;
+use Cake\Filesystem\File;
 
-class SchedulerShell extends AppShell{
+class SchedulerShell extends Shell{
 
 	public $tasks = array();
 
@@ -72,13 +75,13 @@ class SchedulerShell extends AppShell{
 
 /**
  * main function.
- * 
+ *
  * @access public
  * @return void
  */
 	public function main() {
-		
-		// read in the config		
+
+		// read in the config
 		if ($config = Configure::read($this->configKey)) {
 
 			if (isset($config['storePath'])) {
@@ -110,7 +113,7 @@ class SchedulerShell extends AppShell{
  * The connect method adds tasks to the schedule
  *
  * @name string - unique name for this job, isn't bound to anything and doesn't matter what it is
- * @interval string - date interval string "PT5M" (every 5 min) or a relative Date string "next day 10:00" 
+ * @interval string - date interval string "PT5M" (every 5 min) or a relative Date string "next day 10:00"
  * @task string - name of the cake task to call
  * @action string - name of the method within the task to call
  * @pass - array of arguments to pass to the method
@@ -118,8 +121,8 @@ class SchedulerShell extends AppShell{
  */
 	public function connect($name, $interval, $task, $action = 'execute', $pass = array()) {
 		$this->schedule[$name] = array(
-			'name' => $name, 
-			'interval' => $interval, 
+			'name' => $name,
+			'interval' => $interval,
 			'task' => $task,
 			'action' => $action,
 			'args' => $pass,
@@ -130,17 +133,17 @@ class SchedulerShell extends AppShell{
 
 /**
  * Process the tasks when they need to run
- * 
+ *
  * @access private
  * @return void
  */
 	private function runjobs() {
 		$dir = new Folder(TMP);
-		
+
 		// set processing flag so function takes place only once at any given time
 		$processing = count($dir->find('\.scheduler_running_flag'));
 		$processingFlag = new File($dir->slashTerm($dir->pwd()) . '.scheduler_running_flag');
-		
+
 		if ($processing && (time() - $processingFlag->lastChange()) < $this->processingTimeout) {
 			$this->out("Scheduler already running! Exiting.");
 			return false;
@@ -148,11 +151,11 @@ class SchedulerShell extends AppShell{
 			$processingFlag->delete();
 			$processingFlag->create();
 		}
-		
+
 		if (!$this->storePath) {
 			$this->storePath = TMP;
 		}
-		
+
 		// look for a store of the previous run
 		$store = "";
 		$storeFilePath = $this->storePath.$this->storeFile;
@@ -167,7 +170,7 @@ class SchedulerShell extends AppShell{
 		} else {
 			$store = $this->schedule;
 		}
-		
+
 		// run the jobs that need to be run, record the time
 		foreach ($this->schedule as $name => $job) {
 			$now = new DateTime();
@@ -206,13 +209,13 @@ class SchedulerShell extends AppShell{
 					$this->$task = $this->Tasks->load($task);
 
 					// load models if they aren't already
-					foreach ($this->$task->uses as $mk => $mv) {
-						if (!isset($this->$task->$mv)) {
-							App::uses('AppModel', 'Model');
-							App::uses($mv, 'Model');
-							$this->$task->$mv = new $mv();
-						}
-					}
+					// foreach ($this->$task->uses as $mk => $mv) {
+					// 	if (!isset($this->$task->$mv)) {
+					// 		App::uses('AppModel', 'Model');
+					// 		App::uses($mv, 'Model');
+					// 		$this->$task->$mv = new $mv();
+					// 	}
+					// }
 				}
 
 				// grab the entire schedule record incase it was updated..
@@ -226,10 +229,10 @@ class SchedulerShell extends AppShell{
 				$store[$name]['lastRun'] = $now->format('Y-m-d H:i:s');
 			}
 		}
-		
+
 		// write the store back to the file
 		file_put_contents($this->storePath.$this->storeFile, json_encode($store));
-		
+
 		// remove processing flag
 		$processingFlag->delete();
 	}
