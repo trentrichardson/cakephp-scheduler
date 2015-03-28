@@ -114,11 +114,12 @@ class SchedulerShell extends Shell{
 /**
  * The connect method adds tasks to the schedule
  *
- * @name string - unique name for this job, isn't bound to anything and doesn't matter what it is
- * @interval string - date interval string "PT5M" (every 5 min) or a relative Date string "next day 10:00"
- * @task string - name of the cake task to call
- * @action string - name of the method within the task to call
- * @pass - array of arguments to pass to the method
+ * @access public
+ * @param string $name - unique name for this job, isn't bound to anything and doesn't matter what it is
+ * @param string $interval - date interval string "PT5M" (every 5 min) or a relative Date string "next day 10:00"
+ * @param string $task - name of the cake task to call
+ * @param string $action - name of the method within the task to call
+ * @param array  $pass - array of arguments to pass to the method
  * @return void
  */
 	public function connect($name, $interval, $task, $action = 'execute', $pass = array()) {
