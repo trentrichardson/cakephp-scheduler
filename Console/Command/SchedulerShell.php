@@ -141,6 +141,11 @@ class SchedulerShell extends AppShell{
 		$processing = count($dir->find('\.scheduler_running_flag'));
 		$processingFlag = new File($dir->slashTerm($dir->pwd()) . '.scheduler_running_flag');
 		
+		if ($this->processingTimeout) {
+			// wait just a couple seconds to make sure flag is set
+			sleep(2);
+		}
+		
 		if ($processing && (time() - $processingFlag->lastChange()) < $this->processingTimeout) {
 			$this->out("Scheduler already running! Exiting.");
 			return false;
