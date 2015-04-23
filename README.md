@@ -30,7 +30,7 @@ This Shell was developed for CakePHP 3.
 In your project's composer.json file add this to your require:
 
 ````
-"trentrichardson/cakephp-scheduler": "dev-cakephp-v3.0"
+"trentrichardson/cakephp-scheduler": "~3.0"
 ````
 
 ### Manual Installation
