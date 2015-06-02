@@ -9,7 +9,11 @@
  *
  * -------------------------------------------------------------------
  * To configure:
- * In your bootstrap.php you must add your jobs:
+ * In your bootstrap_cli.php you must enable the plugin:
+ *
+ * Plugin::load('Scheduler');
+ *
+ * Then in bootstrap_cli.php schedule your jobs:
  *
  * Configure::write('SchedulerShell.jobs', array(
  * 	'CleanUp' => array('interval'=>'next day 5:00','task'=>'CleanUp'),// tomorrow at 5am
@@ -17,21 +21,16 @@
  * ));
  *
  * -------------------------------------------------------------------
- * Add cake to $PATH:
- * - edit .bashrc (linux) or .bash_profile (mac) and add
- * - export PATH="/path/to/cakephp/lib/Cake/Console:$PATH"
- * - reload with:
- * 	>> source .bashrc
- *
- * -------------------------------------------------------------------
  * Run a shell task:
  * - Cd into app dir
  * - run this:
- * 	>> Console/cake Scheduler.Scheduler
+ * 	>> bin/cake Scheduler.Scheduler
  *
  * -------------------------------------------------------------------
  * Troubleshooting
- * - may have to run dos2unix to fix line endings in the Config/cake file
+ * - may have to run dos2unix to fix line endings in the bin/cake file
+ * - if you didn't use composer to install this plugin you may need to 
+ *   enable the plugin with Plugin::load('Scheduler', [ 'autoload'=>true ]);
  */
 namespace Scheduler\Shell;
 

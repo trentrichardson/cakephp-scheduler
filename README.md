@@ -7,8 +7,6 @@ Author
 ------
 Trent Richardson [http://trentrichardson.com]
 
-Developed as part of the CarBounce project [http://carbounce.com]
-
 License
 -------
 Copyright 2015 Trent Richardson
@@ -42,13 +40,13 @@ Copy the Scheduler plugin into your App/Plugin folder and rename the folder to S
 In your bootstrap.php file add either:
 
 ```php
-CakePlugin::loadAll();
+Plugin::loadAll();
 ```
 
 or
 
 ```php
-CakePlugin::load('Scheduler',['autoload'=>true]);
+Plugin::load('Scheduler',['autoload'=>true]);
 ```
 
 Schedule a single system cron by the shortest interval you need for SchedulerShell.php.  For example, if you have 5 tasks and the most often run is every 5 minutes, then schedule this cron to run at least every 5 minutes. For more help see [Shells as Cron Jobs](http://book.cakephp.org/2.0/en/console-and-shells/cron-jobs.html).
