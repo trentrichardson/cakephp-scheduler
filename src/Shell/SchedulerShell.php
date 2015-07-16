@@ -229,6 +229,10 @@ class SchedulerShell extends Shell{
 				// assign it the current time
 				$now = new DateTime();
 				$store[$name]['lastRun'] = $now->format('Y-m-d H:i:s');
+			} else {
+				$this->hr();
+				$this->out("Not time to run $name, skipping.");
+				$this->hr();
 			}
 		}
 
