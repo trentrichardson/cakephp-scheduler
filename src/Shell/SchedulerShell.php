@@ -121,7 +121,7 @@ class SchedulerShell extends Shell{
  * @param array  $pass - array of arguments to pass to the method
  * @return void
  */
-	public function connect($name, $interval, $task, $action = 'execute', $pass = array()) {
+	public function connect($name, $interval, $task, $action = 'main', $pass = array()) {
 		$this->schedule[$name] = array(
 			'name' => $name,
 			'interval' => $interval,
