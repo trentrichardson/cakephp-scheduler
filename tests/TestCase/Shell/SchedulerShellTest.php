@@ -74,6 +74,7 @@ class SchedulerShellTest extends TestCase
     /**
      * Read the contents of the scheduler file
      *
+     * @param array $contents - assoc array of scheduler data
      * @return void
      */
     private function writeSchedulerFile($contents){
@@ -280,10 +281,7 @@ class SchedulerShellTest extends TestCase
      */
     public function testTaskWithModel()
     {
-        Configure::write('SchedulerShell.jobs', [
-            'Colors' => array('interval' => 'PT15M', 'task' => 'Colors') //every 15 minutes
-        ]);
-
+        $this->Shell->connect('Colors', 'PT15M', 'Colors');
         $this->Shell->main();
 
         $result = $this->readSchedulerFile();
