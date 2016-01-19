@@ -5,6 +5,7 @@ use Cake\Console\Shell;
 
 class ColorsTask extends Shell
 {
+
 	public function initialize()
     {
         parent::initialize();

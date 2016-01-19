@@ -62,10 +62,10 @@ This would run the SchedulerShell every 5 minutes.
 Now once this shell is scheduled we are able to add our entries to bootstrap.php.  Lets say we want to schedule a CleanUp task daily at 5am and a NewsletterTask for every 15 minutes.
 
 ```php
-Configure::write('SchedulerShell.jobs', array(
-	'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp'),// tomorrow at 5am
-	'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter') //every 15 minutes
-));
+Configure::write('SchedulerShell.jobs', [
+	'CleanUp' => ['interval' => 'next day 5:00', 'task' => 'CleanUp'],// tomorrow at 5am
+	'Newsletters' => ['interval' => 'PT15M', 'task' => 'Newsletter'] //every 15 minutes
+]);
 ```
 
 The key to each entry will be used to store the previous run.  *These must be unique*!
@@ -81,12 +81,12 @@ There are a couple optional arguments you may pass: "action" and "pass".
 
 **action** defaults to "execute", which is the method name to call in the task you specify.
 
-**pass** defaults to array(), which is the array of arguments to pass to your "action".
+**pass** defaults to [], which is the array of arguments to pass to your "action".
 
 ```php
-Configure::write('SchedulerShell.jobs', array(
-	'CleanUp' => array('interval' => 'next day 5:00', 'task' => 'CleanUp', 'action' => 'execute', 'pass' => array()),
-	'Newsletters' => array('interval' => 'PT15M', 'task' => 'Newsletter', 'action' => 'execute', 'pass' => array())
+Configure::write('SchedulerShell.jobs', [
+	'CleanUp' => ['interval' => 'next day 5:00', 'task' => 'CleanUp', 'action' => 'execute', 'pass' => [] ],
+	'Newsletters' => ['interval' => 'PT15M', 'task' => 'Newsletter', 'action' => 'execute', 'pass' => [] ]
 ));
 ```
 

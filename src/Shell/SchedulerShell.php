@@ -15,10 +15,10 @@
  *
  * Then in bootstrap_cli.php schedule your jobs:
  *
- * Configure::write('SchedulerShell.jobs', array(
- * 	'CleanUp' => array('interval'=>'next day 5:00','task'=>'CleanUp'),// tomorrow at 5am
- * 	'Newsletters' => array('interval'=>'PT15M','task'=>'Newsletter') //every 15 minutes
- * ));
+ * Configure::write('SchedulerShell.jobs', [
+ * 	'CleanUp' => ['interval'=>'next day 5:00','task'=>'CleanUp'],// tomorrow at 5am
+ * 	'Newsletters' => ['interval'=>'PT15M','task'=>'Newsletter'] //every 15 minutes
+ * ]);
  *
  * -------------------------------------------------------------------
  * Run a shell task:
@@ -43,12 +43,12 @@ use \DateInterval;
 
 class SchedulerShell extends Shell{
 
-	public $tasks = array();
+	public $tasks = [];
 
 /**
  * The array of scheduled tasks.
  */
-	private $schedule = array();
+	private $schedule = [];
 
 /**
  * The key which you set Configure::read() for your jobs
@@ -100,7 +100,7 @@ class SchedulerShell extends Shell{
 			// read in the jobs from the config
 			if (isset($config['jobs'])) {
 				foreach ($config['jobs'] as $k => $v) {
-					$v = $v + array('action' => 'main', 'pass' => array());
+					$v = $v + ['action' => 'main', 'pass' => []];
 					$this->connect($k, $v['interval'], $v['task'], $v['action'], $v['pass']);
 				}
 			}
@@ -121,8 +121,8 @@ class SchedulerShell extends Shell{
  * @param array  $pass - array of arguments to pass to the method
  * @return void
  */
-	public function connect($name, $interval, $task, $action = 'main', $pass = array()) {
-		$this->schedule[$name] = array(
+	public function connect($name, $interval, $task, $action = 'main', $pass = []) {
+		$this->schedule[$name] = [
 			'name' => $name,
 			'interval' => $interval,
 			'task' => $task,
@@ -130,7 +130,7 @@ class SchedulerShell extends Shell{
 			'args' => $pass,
 			'lastRun' => null,
 			'lastResult' => ''
-		);
+		];
 	}
 
 /**
@@ -209,22 +209,13 @@ class SchedulerShell extends Shell{
 
 				if (!isset($this->$task)) {
 					$this->$task = $this->Tasks->load($task);
-
-					// load models if they aren't already
-					// foreach ($this->$task->uses as $mk => $mv) {
-					// 	if (!isset($this->$task->$mv)) {
-					// 		App::uses('AppModel', 'Model');
-					// 		App::uses($mv, 'Model');
-					// 		$this->$task->$mv = new $mv();
-					// 	}
-					// }
 				}
 
 				// grab the entire schedule record incase it was updated..
 				$store[$name] = $this->schedule[$name];
 
 				// execute the task and store the result
-				$store[$name]['lastResult'] = call_user_func_array(array($this->$task, $action), $job['args']);
+				$store[$name]['lastResult'] = call_user_func_array([$this->$task, $action], $job['args']);
 
 				// assign it the current time
 				$now = new DateTime();
