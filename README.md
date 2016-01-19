@@ -119,12 +119,12 @@ Other Notes/Known Issues
 
 Contributing
 ------------
-Contributions are much appreciated.  Before you burn up too much time on a fix, check the posted issues and pull requests to see if someone has addressed the issue.
+Contributions are much appreciated.  Before you burn up too much time on a fix, check the posted issues, pull requests, and branches to see if someone has addressed the issue.
 
 When making changes keep in mind the `master` branch is always the latest stable version.  I do not apply changes directly to this branch, but rather to the cakephp-v* branches. When the latest cakephp version's branch is stable I tag it and merge it with master.
 
 The quick overview:
-- Fork/Checkout the cakephp-v* branch of the cake version you're applying changes for.
+- Fork/Checkout the cakephp-v* branch of the cake version you're applying changes for
 - From a terminal `cd` into the directory and run `composer install`
 - Write any tests and changes you would like to make
 - Run `vendor/bin/phpunit` to verify all tests pass and your code works
