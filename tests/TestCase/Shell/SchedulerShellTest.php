@@ -26,9 +26,14 @@ class SchedulerShellTest extends TestCase
         $io = $this->getMock('Cake\Console\ConsoleIo', [], [], '', false);
         
         $this->fileDir = TMP;
+        $this->storeFile = 'cron_scheduler.json';
+        $this->processingFlagFile = '.cron_scheduler_processing_flag';
 
         Configure::write('SchedulerShell', [
             'storePath'=>$this->fileDir,
+            'storeFile'=>$this->storeFile,
+            'processingFlagFile'=>$this->processingFlagFile,
+            'processingFlagFile'=>'.cron_scheduler_processing_flag',
             'jobs'=>[]
         ]);
 
@@ -49,8 +54,8 @@ class SchedulerShellTest extends TestCase
         parent::tearDown();
         unset($this->Shell);
 
-        $processingFlag = new File($this->fileDir . '.scheduler_running_flag');
-        $storeFile = new File($this->fileDir . 'cron_scheduler.json');
+        $processingFlag = new File($this->fileDir . $this->processingFlagFile);
+        $storeFile = new File($this->fileDir . $this->storeFile);
         
         $processingFlag->delete();
         $storeFile->delete();
@@ -59,15 +64,21 @@ class SchedulerShellTest extends TestCase
     /**
      * Read the contents of the scheduler file
      *
-     * @return stdClass
+     * @param boolean $assert - whether or not to assert if the file exists
+     * @return mixed - stdClass or false if it doesn't exist
      */
-    private function readSchedulerFile(){
-        $file = new File($this->fileDir . 'cron_scheduler.json');
-        $this->assertTrue($file->exists(), 'Verify the file was created');
-        $results = json_decode($file->read());
+    private function readSchedulerFile($assert = true){
+        $results = false;
+        $file = new File($this->fileDir . $this->storeFile);
+        if($file->exists()){
+            $results = json_decode($file->read());
+        }
         $file->close();
         unset($file);
-
+        
+        if($assert){
+            $this->assertTrue($results !== false, 'Verify the file was created');
+        }
         return $results;
     }
 
@@ -78,8 +89,19 @@ class SchedulerShellTest extends TestCase
      * @return void
      */
     private function writeSchedulerFile($contents){
-        $file = new File($this->fileDir . 'cron_scheduler.json');
+        $file = new File($this->fileDir . $this->storeFile);
         $file->write(json_encode($contents));
+        $file->close();
+        unset($file);
+    }
+
+    /**
+     * Create processing flag file
+     *
+     * @return void
+     */
+    private function createProcessingFlagFile(){
+        $file = new File($this->fileDir . $this->processingFlagFile, true);
         $file->close();
         unset($file);
     }
@@ -290,6 +312,45 @@ class SchedulerShellTest extends TestCase
         $this->assertObjectHasAttribute('Colors', $result);
         $this->assertEquals('Colors Exist', $result->Colors->lastResult);
 
+    }
+
+    /**
+     * Test that it will not run if a flag file exists
+     *
+     * @return void
+     */
+    public function testExistingProcessingRun()
+    {
+        $this->createProcessingFlagFile();
+
+        $this->Shell->connect('CleanUp', 'PT15M', 'CleanUp');
+        $this->Shell->main();
+
+        $result = $this->readSchedulerFile(false);
+        
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test that it will run if timeout has expired on existing run
+     *
+     * @return void
+     */
+    public function testExistingProcessingRunTimeout()
+    {
+        Configure::write('SchedulerShell.processingTimeout', 0.5);
+
+        $this->createProcessingFlagFile();
+        
+        sleep(1); // sleep 2 seconds should timeout the flag file
+
+        $this->Shell->connect('CleanUp', 'PT15M', 'CleanUp');
+        $this->Shell->main();
+
+        $result = $this->readSchedulerFile();
+        
+        $this->assertNotEmpty($result);
+        $this->assertObjectHasAttribute('CleanUp', $result);
     }
 
 }
