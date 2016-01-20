@@ -112,6 +112,13 @@ By default, the SchedulerShell will exit if it is already running and has been f
 Configure::write('SchedulerShell.processTimeout', 5*60);
 ```
 
+This works by creating a flag file while the process is running, and deleting this file once it is complete.  If the file exists, but is older than the timeout specified the scheduler will continue.  Although you shouldn't need to, you can change the name of this file:
+
+```php
+// change the number of seconds to wait before running a parallel SchedulerShell; 0 = do not exit
+Configure::write('SchedulerShell.processingFlagFile', '.cron_scheduler_processing_flag');
+```
+
 Other Notes/Known Issues
 ------------------------
 - The optional pass arguments have not been thoroughly tested
