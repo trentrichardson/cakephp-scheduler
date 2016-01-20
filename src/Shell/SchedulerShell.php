@@ -159,7 +159,7 @@ class SchedulerShell extends Shell{
 
 		// look for a store of the previous run
 		$store = "";
-		$storeFile = new File($this->storePath . $this->storeFile);
+		$storeFile = new File($dir->slashTerm($dir->pwd()) . $this->storeFile);
 		if ($storeFile->exists()) {
 			$store = $storeFile->read();
 			$storeFile->close(); // just for safe measure
