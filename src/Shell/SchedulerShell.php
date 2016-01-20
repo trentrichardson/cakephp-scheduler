@@ -159,11 +159,12 @@ class SchedulerShell extends Shell{
 
 		// look for a store of the previous run
 		$store = "";
-		$storeFilePath = $this->storePath.$this->storeFile;
-		if (file_exists($storeFilePath)) {
-			$store = file_get_contents($storeFilePath);
+		$storeFile = new File($this->storePath . $this->storeFile);
+		if ($storeFile->exists()) {
+			$store = $storeFile->read();
+			$storeFile->close(); // just for safe measure
 		}
-		$this->out('Reading from: '. $storeFilePath);
+		$this->out('Reading from: '. $storeFile->pwd());
 
 		// build or rebuild the store
 		if ($store != '') {
@@ -227,7 +228,8 @@ class SchedulerShell extends Shell{
 		}
 
 		// write the store back to the file
-		file_put_contents($this->storePath.$this->storeFile, json_encode($store));
+		$storeFile->write(json_encode($store));
+		$storeFile->close();
 
 		// remove processing flag
 		$processingFlag->delete();
