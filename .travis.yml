@@ -8,6 +8,7 @@ php:
   - hhvm
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - phpenv rehash
 
 install:
